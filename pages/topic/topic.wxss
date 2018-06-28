@@ -1,0 +1,127 @@
+/* pages/topic/topic.wxss */
+.title{
+  display: flex;
+  justify-content: space-between;
+  padding: 3%;
+  padding-top: 30rpx;
+  font-size: 28rpx;
+	color: #333333;
+}
+.container{
+  overflow-y: auto;
+}
+.questionType{
+  padding: 1rpx 1%;
+  margin-right: 5%; 
+  width: 123rpx;
+	height: 34rpx;
+	border-radius: 4rpx;
+	border: solid 1rpx #e60012;
+  font-size: 24rpx;
+	color: #e60012;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.content{
+  padding: 0 3%;
+  font-size: 34rpx;
+	color: #333333;
+  line-height: 70rpx;
+}
+.option{
+  padding: 3%;
+  display: flex;
+  align-content: space-between;
+}
+
+.option-img{
+  width: 46rpx;
+  height: 46rpx;
+  margin-right: 3%;
+}
+.option-img> image{
+  width: 46rpx;
+  height: 46rpx;
+}
+.option-text{
+  font-size: 34rpx;
+	color: #333333;
+}
+.answer{
+  padding: 0 3%;
+  padding-top: 3%;
+  font-size: 34rpx;
+	color: #333333;
+}
+
+.next-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 54rpx auto;
+  width: 600rpx;
+	height: 88rpx;
+	border-radius: 44rpx;
+	border: solid 2px #f74c4c;
+  font-size: 38rpx;
+	color: #f74c4c;
+}
+.correct{
+  color: #3aa6f1;
+}
+.mistake{
+  color: #f74c4c;
+}
+
+.nextBtnHover{
+  color: #fa9494;
+  border-color:#fa9494; 
+}
+
+.errMsg{
+  position:relative;
+  top: 50%;
+  margin: 0 auto;
+  transform: translateY(-100%);
+}
+
+.popui__modal-main{
+  height: 566rpx;
+}
+.popui__modal-panel{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.popui__modal-main{
+  border-radius: 8rpx;
+}
+.popui__modal-title{
+  border-bottom: none;
+  color: #000000;
+  font-size: 36rpx;
+  margin-top: 30rpx;
+}
+.popui__modal-score{
+  font-size: 48rpx;
+  color: #ff0000;
+  margin: 30rpx auto;
+  text-align: center;
+}
+.score{
+  font-size: 98rpx;
+}
+.popui__modal-content{
+  font-size: 36rpx;
+  color: #666666;
+  text-align: center;
+}
+.button-hover{
+  background-color: rgba(0,0,0,0) !important;
+  color: #fa9494 !important;
+  border-color: #fa9494;
+}

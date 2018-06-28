@@ -1,0 +1,40 @@
+<view class="container">
+  <view class='title'>
+    <view class='title-left'>
+      <text>题目：</text>
+      <text>{{topicIndex+1}}</text>/<text>{{allData}}</text>
+    </view>
+
+    <view class='title-right'>
+      <text>用时：</text>
+      <text>{{timer}}</text>
+    </view> 
+  </view>
+
+  <view class='content' animation="{{animationData}}">
+    <text class='questionType' wx:if="{{list.type == 1}}">单选题</text>
+    <text class='questionType' wx:elif="{{list.type == 2}}">多选题</text>
+    <text class='questionType' wx:elif="{{list.type == 3}}">判断题</text>
+    <text>{{list.content}}</text>
+  </view>
+
+  <view class='options'>
+    <view class='option' wx:for="{{list.options}}" bindtap='itemTap' data-type='{{item.local}}' data-num='{{index+1}}' wx:key="item"><view class='option-img'><image  src='../../images/index/icon-{{item.local}}.png'></image></view><text class='option-text'>{{item.option}}</text></view>
+      <!-- <view class='option'><view class='option-img'><image src='../../images/index/icon-2.png'></image></view><text class='option-text'>全体党员</text></view>  -->
+  </view>
+    <view class='comeToBtn' wx:if="{{showLoad}}">
+      <view class='btnBox1'>
+        <view class='answer' wx:if="{{isCorrent}}">答案：<text>{{list.answerPro}}</text></view>
+      </view>
+      <view class='btnBox2'>
+        <view class='next-btn' hover-class='preBtn' bindtap='preTopic'>上一题</view>
+        <view class='next-btn'  hover-class='preBtn' wx:if="{{isNext}}" bindtap='nextTopic'>下一题</view> 
+        <view class='next-btn'  hover-class='preBtn' wx:else  bindtap='nextTopic'>确认</view>
+      </view>
+      </view>
+    <view class='btnBox2 backBtn' wx:else>
+      <view class='next-btn'  hover-class='preBtn' bindtap='backTopic'>返回</view> 
+    </view>
+
+    
+  </view>

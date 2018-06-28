@@ -1,0 +1,34 @@
+<!--pages/classify/classify.wxml-->
+<view class="container">
+    <view class='main'>
+      <view class='title'>主题分类</view>
+      <view class='list' data-type='1'><text>监察法知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class='list' data-type='2'><text>宪法知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class='list' data-type='3' wx:if="{{isParty}}"><text>新党章知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class='list' data-type='4' wx:if="{{isParty}}"><text>中国共产党党内监督条例知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class='list' data-type='5' wx:if="{{isParty}}"><text>中国共产党纪律处分条例知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class='list' data-type='6' wx:if="{{isParty}}"><text>中国共产党廉洁自律准则知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class='list' data-type='7' wx:if="{{isParty}}"><text>中国共产党问责条例知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class='list' data-type='8' wx:if="{{isParty}}"><text>中国共产党巡视工作条例知识</text><image src='../../images/index/icon_right.png'></image></view>
+    </view>
+
+  <!-- 题型选择 -->
+  <view class='popui__modal-panel' wx:if='{{showSelectModalStatus}}'>
+    <view class='popui__modal-mask' catchtap='popuMask'></view>
+
+    <view class='popui__modal-main'>
+      <view class='popui__modal-title'>题目类型</view>
+      <view class='popui__modal-content'>
+
+        <view class='popui__modal-content-list' hover-class="party-button-hover"  catchtap='partyBtn'>党员题库
+        </view>
+
+        <view class='popui__modal-content-list' hover-class="party-button-hover" catchtap='notPartyBtn'>非党员题库
+        </view>
+
+      </view>
+      <view class='popui__modal-footer select-btn' hover-class="main-button-hover" catchtap='cancel'>取消</view>
+    </view>
+
+  </view>
+</view>

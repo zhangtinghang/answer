@@ -1,0 +1,42 @@
+<!--pages/classify/classify.wxml-->
+<view class="container">
+  <view class='title'>
+    <view class='title-left'>
+      <text>题目：</text>
+      <text>{{topicIndex+1}}</text>/<text>{{allData}}</text>
+    </view>
+
+    <view class='title-right'>
+      <text>倒计时：</text>
+      <text>{{wxTimer}}</text>
+    </view> 
+  </view>
+
+  <view class='content'>
+    <text class='questionType' wx:if="{{list.type == 1}}">单选题</text>
+    <text class='questionType' wx:elif="{{list.type == 2}}">多选题</text>
+    <text class='questionType' wx:elif="{{list.type == 3}}">判断题</text>
+    <text>{{list.content}}</text>
+  </view>
+
+  <view class='options'>
+    <view class='option' wx:for="{{list.options}}" bindtap='itemTap' data-type='{{item.num}}' data-num='{{index+1}}' wx:key="item"><view class='option-img'><image src='../../images/index/icon-{{item.num}}.png'></image></view><text class='option-text'>{{item.option}}</text></view>
+    <!-- <view class='option'><view class='option-img'><image src='../../images/index/icon-2.png'></image></view><text class='option-text'>全体党员</text></view> -->
+  </view>
+  <view class='next-btn errMsg' bindtap='returnTopic' hover-class="nextBtnHover" wx:if="{{showLoad}}">返回上一级</view>
+  <view class='next-btn' bindtap='nextTopic' hover-class="nextBtnHover" wx:else data-id='{{list.id}}'>下一题</view>
+
+
+  <!-- 题型选择 -->
+    <view class='popui__modal-panel' wx:if='{{showScore}}'>
+      <view class='popui__modal-mask' catchtap='popuMask'></view>
+
+      <view class='popui__modal-main'>
+        <view class='popui__modal-title'>答题结束</view>
+        <view class='popui__modal-score'><text class='score'>{{scoreNum}}</text>分</view>
+        <view class='popui__modal-content'>感谢您的参与！</view>
+        <view class='popui__modal-footer select-btn' hover-class="button-hover" catchtap='returnTopic'>确定</view>
+      </view>
+
+    </view>
+</view>

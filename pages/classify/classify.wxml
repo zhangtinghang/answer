@@ -1,0 +1,15 @@
+<!--pages/classify/classify.wxml-->
+<view class="container">
+    <view class='main'>
+      <view class='title'>主题分类</view>
+      <view class="list {{currentItem==1?'active-tag':''}}" data-type='1'  bindtap='list'><text>监察法知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class="list {{currentItem==2?'active-tag':''}}" data-type='2' bindtap='list'><text>宪法知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class="list {{currentItem==3?'active-tag':''}}" data-type='3' bindtap='list' wx:if="{{isParty}}"><text>新党章知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class="list {{currentItem==4?'active-tag':''}}" data-type='4' bindtap='list' wx:if="{{isParty}}"><text>中国共产党党内监督条例知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class="list {{currentItem==5?'active-tag':''}}" data-type='5' bindtap='list' wx:if="{{isParty}}"><text>中国共产党纪律处分条例知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class="list {{currentItem==6?'active-tag':''}}" data-type='6' bindtap='list' wx:if="{{isParty}}"><text>中国共产党廉洁自律准则知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class="list {{currentItem==7?'active-tag':''}}" data-type='7' bindtap='list' wx:if="{{isParty}}"><text>中国共产党问责条例知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class="list {{currentItem==8?'active-tag':''}}" data-type='8' bindtap='list' wx:if="{{isParty}}"><text>中国共产党巡视工作条例知识</text><image src='../../images/index/icon_right.png'></image></view>
+      <view class="list {{currentItem==9?'active-tag':''}}" data-type='9' bindtap='list' wx:if="{{isParty}}"><text>关于新形势下党内政治生活的若干准则</text><image src='../../images/index/icon_right.png'></image></view>
+    </view>
+</view>

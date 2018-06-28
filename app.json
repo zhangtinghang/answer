@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/classify/classify",
+    "pages/topic/topic",
+    "pages/practice/practice",
+    "pages/topicbg/topicbg"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#000000",
+    "navigationBarTitleText": "知识测试",
+    "navigationBarTextStyle": "#fff"
+  }
+}

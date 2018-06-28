@@ -1,0 +1,103 @@
+/* pages/practice/practice.wxss */
+.container{
+  overflow-y: auto;
+}
+
+.title{
+  display: flex;
+  justify-content: space-between;
+  padding: 3%;
+  padding-top: 30rpx;
+  font-size: 28rpx;
+	color: #333333;
+}
+.questionType{
+  padding: 1rpx 1%;
+  margin-right: 5%; 
+  width: 123rpx;
+	height: 34rpx;
+	border-radius: 4rpx;
+	border: solid 1rpx #e60012;
+  font-size: 24rpx;
+	color: #e60012;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.content{
+  padding: 0 3%;
+  font-size: 34rpx;
+	color: #333333;
+  line-height: 70rpx;
+}
+.option{
+  padding: 3%;
+  display: flex;
+  align-content: space-between;
+}
+
+.option-img{
+  width: 46rpx;
+  height: 46rpx;
+  margin-right: 3%;
+}
+.option-img> image{
+  width: 46rpx;
+  height: 46rpx;
+}
+.option-text{
+  font-size: 34rpx;
+	color: #333333;
+}
+.answer{
+  padding: 0 3%;
+  font-size: 34rpx;
+	color: #333333;
+}
+
+.next-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 163rpx;
+	height: 59rpx;
+	border-radius: 28rpx;
+	border: solid 1px #EFEFF4;
+  font-size: 28rpx;
+	color: #666666;
+  overflow: hidden;
+}
+.correct{
+  color: #3aa6f1;
+}
+.mistake{
+  color: #f74c4c;
+}
+
+.comeToBtn{
+  display: flex;
+  align-items: center;
+  margin: 3% 0;
+}
+.btnBox1{
+  width: 50%;
+}
+.btnBox2{
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+}
+.backBtn{
+  width: 100%;
+  display: relative;
+  margin-top: 50%;
+}
+.backBtn>view{
+  width: 60%;
+}
+
+.preBtn{
+  background-color: #ebebeb;
+  border-color: #999999; 
+}

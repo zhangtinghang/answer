@@ -1,0 +1,64 @@
+/* pages/classify/classify.wxss */
+page{
+  padding-top:2%;
+}
+.container{
+  margin: 0 auto;
+  width: 96%;
+  height: 97%;
+  background-color: #fff;
+  border-radius: 4rpx;
+}
+.popui__modal-panel{
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left:0;
+}
+
+.title{
+  display: flex;
+  align-items: center;
+  padding:0 3%;
+  height: 80rpx;
+	background-color: #ffffff;
+  border-bottom: 1px solid #efeff4;
+  font-size: 28rpx;
+	color: #666666;
+}
+.list{
+  display: flex;
+  padding:0 3%;
+  height: 88rpx;
+  justify-content: space-between;
+  align-items: center; 
+  border-bottom: 1px solid #efeff4;
+}
+.list>text{
+  font-size: 34rpx;
+	color: #000000;
+}
+.list>image{
+  width: 32rpx;
+	height: 50rpx;
+}
+.select-list{
+  color: #ff0000;
+}
+.select-btn{
+  color: #666666 !important;
+  border: 1px solid #666666 !important;
+}
+
+.party-button-hover{
+  background-color: rgba(0,0,0,0) !important;
+  color: #fa9494 !important;
+  border-color: #fa9494;
+}
+.popui__modal-footer{
+  background-color: rgba(0, 0, 0, 0);
+}
+.main-button-hover{
+  background-color: #ebebeb;
+  border-color: #999999 !important;
+}

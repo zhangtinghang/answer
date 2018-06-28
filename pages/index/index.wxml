@@ -1,0 +1,61 @@
+<!--index.wxml-->
+<view class="container">
+  <image class='bg-animate' src='../../images/index/bg-animate.gif'></image>
+  <view class='practice' catchtap="practice"></view>
+  <view class='answer' catchtap="answer"></view>
+  
+  <view class='login'>
+    <view class='login-img'><image mode='aspectFit' src='../../images/index/icon_use.png'></image></view>
+    <view class='login-name'>
+      <text wx:if="{{isLogin}}">{{userData.realName}}</text>
+      <text wx:else>未登录</text>
+    </view>
+    <view class='line'></view>
+    <view class='login-return' catchtap='loginFun'>
+      <text wx:if="{{isLogin}}">退出</text>
+      <text wx:else>登录</text>
+    </view>
+  </view> 
+
+  <!-- 用户登陆 -->
+  <view class='popui__modal-panel' wx:if='{{showLoginModalStatus}}'>
+    <view class='popui__modal-mask' catchtap='popuMask'></view>
+    <view class='popui__modal-main'>
+      <form bindsubmit="formSubmit" bindreset="formReset">
+        <view class='popui__modal-title'>用户登录</view>
+        <view class='popui__modal-content'>
+        
+          <view class='popui__modal-content-list username'>
+            <input placeholder='账号' focus name='username' type='text'></input>
+          </view>
+          <view class='popui__modal-content-list password'>
+             <input placeholder='密码' name='password'  password='true'></input> 
+          </view>
+
+        </view>
+        <button class='popui__modal-footer hover-class' hover-stop-propagation plain form-type="submit">登录</button>
+      </form>
+    </view>
+  </view>
+
+<!-- 题型选择 -->
+  <view class='popui__modal-panel' wx:if='{{showSelectModalStatus}}'>
+    <view class='popui__modal-mask' catchtap='popuMask'></view>
+
+    <view class='popui__modal-main'>
+      <view class='popui__modal-title'>题目类型</view>
+      <view class='popui__modal-content'>
+
+        <view class='popui__modal-content-list'  hover-class="party-button-hover" catchtap='partyBtn'>党员题库
+        </view>
+
+        <view class='popui__modal-content-list' hover-class="party-button-hover" catchtap='notPartyBtn'>非党员题库
+        </view>
+
+      </view>
+      <view class='popui__modal-footer select-btn' hover-class="main-button-hover" catchtap='cancel'>取消</view>
+    </view>
+
+  </view>
+
+</view>
