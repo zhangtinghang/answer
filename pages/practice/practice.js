@@ -150,11 +150,16 @@ Page({
     /**
      * 机型适配，某些机型sort()会报错
      */
-    if ($oriList.answer.split('|').sort()){
-      var answerArr = $oriList.answer.split('|').sort();
+    if ($oriList.answer){
+      if ($oriList.answer.split('|').sort()) {
+        var answerArr = $oriList.answer.split('|').sort();
+      } else {
+        var answerArr = $oriList.answer.split('|');
+      }
     }else{
-      var answerArr = $oriList.answer.split('|');
+      return false;
     }
+    
     if (app.globalData.isDbug) {
       console.log('重排答案数组', answerArr);
     }
