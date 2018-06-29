@@ -98,7 +98,7 @@ Page({
       if (userSync.data.user.answered){
         wx.showModal({
           title: "答题提示",
-          content: "您已经答题完成，请勿重复答题！",
+          content: "您已经答题完成，分数为：" + userSync.data.user.score,
           showCancel: false,
           confirmText: "确定"
         })
@@ -207,7 +207,10 @@ Page({
         if (app.globalData.isDbug) {
           console.log('返回的数据',result)
         }
-        wx.hideLoading();
+        if (wx.hideLoading) {
+          wx.hideLoading();
+        }
+        
         if (result.statusCode == 200){
           if (result.data){
             if (result.data.errorCode && result.data.errorCode == 0){

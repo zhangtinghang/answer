@@ -197,6 +197,7 @@ Page({
             try {
               var value = wx.getStorageSync('user');
               value.data.user.answered = true;
+              value.data.user.score = score;
               try {
                 wx.setStorageSync('user', value)
               } catch (e) {
@@ -444,6 +445,7 @@ Page({
                     try {
                       var value = wx.getStorageSync('user')
                       value.data.user.answered = true;
+                      value.data.user.score = score;
                       try {
                         wx.setStorageSync('user', value)
                       } catch (e) {
