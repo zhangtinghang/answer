@@ -159,6 +159,8 @@ Page({
 
     try {
       var res = wx.getSystemInfoSync();
+      res.xversions ='V1.1.3';
+      console.log(res)
       res = JSON.stringify(res);
     } catch (e) {
       // Do something when catch error

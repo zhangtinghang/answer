@@ -168,11 +168,27 @@ Page({
         cancelText:'取消',
         success: function (res) {
           if (res.cancel) {
-            wx.navigateBack({
-              delta: 2
-            })
+
             return false;
           }else if(res.confirm){
+
+            if (wx.getNetworkType) {
+              wx.getNetworkType({
+                success: function (res) {
+                  // 返回网络类型, 有效值：
+                  // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
+                  var networkType = res.networkType
+                  if (networkType == 'none') {
+                    wx.showToast({
+                      title: "请检查网络状况！",
+                      duration: 1500
+                    })
+                    return false;
+                  }
+                }
+              })
+            }
+
             var answerArr = [];
             for (var i = 0, len = temArr.length; i < len; i++) {
               var obj = {};
@@ -275,6 +291,9 @@ Page({
               }
             })
           }
+        },
+        fail:function(err){
+          console.log('error',err)
         }
       })
 
