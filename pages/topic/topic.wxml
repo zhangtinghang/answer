@@ -24,7 +24,7 @@
     <!-- <view class='option'><view class='option-img'><image src='../../images/index/icon-2.png'></image></view><text class='option-text'>全体党员</text></view> -->
   </view>
   <view class='next-btn errMsg' bindtap='returnTopic' hover-class="nextBtnHover" wx:if="{{showLoad}}">返回上一级</view>
-  <view class='next-btn' bindtap='nextTopic' hover-class="nextBtnHover" wx:else data-id='{{list.id}}'>下一题</view>
+  <view class='next-btn' bindtap='nextTopic' hover-class="nextBtnHover" wx:else data-id='{{list.id}}'>{{showComp}}</view>
 
 
   <!-- 题型选择 -->

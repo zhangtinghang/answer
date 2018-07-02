@@ -21,7 +21,8 @@ Page({
    scoreNum:0,
    showTimestamp: null,//答题开始时间戳
    nowTimeStamp:null,//答题提交时间戳
-   timeCount: "00:30:00"
+   timeCount: "00:30:00",
+   showComp:'下一题'
   },
   //点击选项 
   itemTap:function(e){
@@ -124,95 +125,159 @@ Page({
     }
     var topicFlag = that.data.topicIndex +1;
     var optionOne = that.data.initialData[topicFlag];
+    if (topicFlag === that.data.initialData.length-1){
+      that.setData({
+        showComp: '提交答案'
+      })
+    }
     if (topicFlag === that.data.initialData.length){
+      that.setData({
+        showComp: '提交答案'
+      })
       if (IdData.length == temArr.length){
         that.setData({
-          saveIdData: IdData
+          saveIdData: IdData,
+          showComp:'提交答案'
         })
       }
       //答题完成 准备上传数据
       //对比时间戳，处理超时问题
-      var timeStamp2 = Date.parse(new Date());
-      timeStamp2 = timeStamp2 / 1000;
-      if (that.data.showTimestamp + 35*60 < timeStamp2){
-          //超时，请重新答题
-        wx.showModal({
-          title: '计时提示',
-          showCancel: false,
-          content: '答题时间超过30分钟，本次答题无效，请重新答题！',
-          success: function (res) {
-            if (res.confirm) {
-              wx.navigateBack({
-                delta: 2
-              })
+      // var timeStamp2 = Date.parse(new Date());
+      // timeStamp2 = timeStamp2 / 1000;
+      // if (that.data.showTimestamp + 35*60 < timeStamp2){
+      //     //超时，请重新答题
+      //   wx.showModal({
+      //     title: '计时提示',
+      //     showCancel: false,
+      //     content: '答题时间超过30分钟，本次答题无效，请重新答题！',
+      //     success: function (res) {
+      //       if (res.confirm) {
+      //         wx.navigateBack({
+      //           delta: 2
+      //         })
+      //       }
+      //     }
+      //   })
+      //     return false;
+      // }
+      //确认是否提交答案
+      wx.showModal({
+        title: "答题提示",
+        content: "系统检测您已答题完成,请确认是否提交！",
+        confirmText: "确定",
+        cancelText:'取消',
+        success: function (res) {
+          if (res.cancel) {
+            wx.navigateBack({
+              delta: 2
+            })
+            return false;
+          }else if(res.confirm){
+            var answerArr = [];
+            for (var i = 0, len = temArr.length; i < len; i++) {
+              var obj = {};
+              obj.answer = temArr[i];
+              obj.id = JSON.parse(JSON.stringify(that.data.saveIdData[i]));
+              answerArr.push(obj);
             }
-          }
-        })
-          return false;
-      }
-
-      var answerArr = [];
-      for (var i = 0, len = temArr.length;i<len;i++){
-        var obj = {};
-        obj.answer = temArr[i];
-        obj.id = JSON.parse(JSON.stringify(that.data.saveIdData[i]));
-        answerArr.push(obj);
-      }
-      //拿取token
-      var value = wx.getStorageSync('user');
-      var token = value.data.token;
-      //获取分数
-      var datas = {
-        data: {
-          token:token,
-          answers: answerArr
-        },
-        method: 'POST',
-        url: '/submit',
-        header:{
-          'content-type': 'application/json'
-        }
-      }
-      util.ajax(datas, function (result) {
-        if (result.statusCode == 200) {
-          if (result.data) {
-            if (result.data.errorCode == 2) {
-              wx.showModal({
-                title: "答题信息",
-                content: "系统查询您已答题完成，本次答题无效！",
-                showCancel: false,
-                confirmText: "退出",
-                success: function (res) {
-                  if (res.confirm) {
-                    wx.navigateBack({
-                      delta: 2
-                    })
-                  }
-                }
-              })
-              return false;
-            }
-            var score = result.data.score;
-            //修改本地缓存
-            try {
-              var value = wx.getStorageSync('user');
-              value.data.user.answered = true;
-              value.data.user.score = score;
-              try {
-                wx.setStorageSync('user', value)
-              } catch (e) {
-                that.data.user = null
+            //拿取token
+            var value = wx.getStorageSync('user');
+            var token = value.data.token;
+            // console.log('即将提交的答案', answerArr)
+            //获取分数
+            var datas = {
+              data: {
+                token: token,
+                answers: answerArr
+              },
+              method: 'POST',
+              url: '/submit',
+              header: {
+                'content-type': 'application/json'
               }
-            } catch (e) {
-              that.data.user = null
             }
-            that.setData({
-              scoreNum: score,
-              showScore:true
+            util.ajax(datas, function (result) {
+              if (result.statusCode == 200) {
+                if (result.data) {
+                  if (result.data.errorCode == 2) {
+                    wx.showModal({
+                      title: "答题信息",
+                      content: "系统查询您已答题完成，本次答题无效！",
+                      showCancel: false,
+                      confirmText: "退出",
+                      success: function (res) {
+                        if (res.confirm) {
+                          wx.navigateBack({
+                            delta: 2
+                          })
+                        }
+                      }
+                    })
+                    return false;
+                  } else if (result.data.errorCode == 5){
+                    wx.showModal({
+                      title: "答题信息",
+                      content: "系统查询您已答题超时，本次答题无效！",
+                      showCancel: false,
+                      confirmText: "退出",
+                      success: function (res) {
+                        if (res.confirm) {
+                          wx.navigateBack({
+                            delta: 2
+                          })
+                        }
+                      }
+                    })
+                    return false;
+                  } else if (result.data.score){
+                    var score = result.data.score;
+                    //修改本地缓存
+                    try {
+                      var value = wx.getStorageSync('user');
+                      value.data.user.answered = true;
+                      value.data.user.score = score;
+                      try {
+                        wx.setStorageSync('user', value)
+                      } catch (e) {
+                        that.data.user = null
+                      }
+                    } catch (e) {
+                      that.data.user = null
+                    }
+                    that.setData({
+                      scoreNum: score,
+                      showScore: true
+                    })
+                  }else{
+                    wx.showModal({
+                      title: "答题信息",
+                      content: "提交失败，请重新提交！",
+                      showCancel: false,
+                      confirmText: "退出",
+                      success: function (res) {
+                        if (res.confirm) {
+
+                        }
+                      }
+                    })
+                  }     
+                }else{
+                  wx.showModal({
+                    title: "答题信息",
+                    content: "提交失败，请检查网络等状况！",
+                    showCancel: false,
+                    confirmText: "退出",
+                    success: function (res) {
+
+                    }
+                  })
+                }
+              }
             })
           }
         }
       })
+
     }else{
       that.setData({
         list: optionOne,
@@ -369,106 +434,105 @@ Page({
       beginTime: that.data.timeCount,
       complete: function () {
         wxTimer.stop();
-        if (app.globalData.isDbug) {
-          console.log(getCurrentPages()[getCurrentPages().length - 1].route)
-        }
         if (getCurrentPages()[getCurrentPages().length - 1].route != 'pages/topic/topic'){
           return false;
         }
-        //验证是否达到时间
-        var timeStamp = Date.parse(new Date());
-        timeStamp = timeStamp / 1000;
-        //对比时间戳，如果在范围内，则表明不是倒计时未完就交卷
-        if (that.data.showTimestamp + 29*60 > timeStamp){
-          //告诉用户 定时器出现问题，您可以继续答题。
-          wx.showModal({
-            title: '计时提示',
-            showCancel:false,
-            content: '计时器出错，但您可继续答题,请将时间把握在30分钟内！',
-            success: function (res) {
-              if (res.confirm) {}
-            }
-          })
-          return false;
-        }
-
-        wx.showModal({
-          title: '时间耗尽',
-          content: '自动提交试题！',
-          confirmText: '确定',
-          success: function (res) {
-            if (res.confirm) {
-              var answerArr = [];
-              for (var i = 0, len = that.data.selectData.length; i < len; i++) {
-                var obj = {};
-                obj.answer = that.data.selectData[i];
-                obj.id = JSON.parse(JSON.stringify(that.data.saveIdData[i]));
-                answerArr.push(obj);
-              }
-              //拿取token
-              var value = wx.getStorageSync('user');
-              var token = value.data.token;
-              //获取分数
-              var datas = {
-                data: {
-                  token: token,
-                  answers: answerArr
-                },
-                method: 'POST',
-                url: '/submit',
-                header: {
-                  'content-type': 'application/json'
-                }
-              }
-
-              util.ajax(datas, function (result) {
-                if (result.statusCode == 200) {
-                  if (result.data) {
-                    if (result.data.errorCode == 2){
-                      wx.showModal({
-                        title: "答题信息",
-                        content: "系统查询您已答题完成，本次答题无效！",
-                        showCancel: false,
-                        confirmText: "退出",
-                        success: function (res) {
-                          if (res.confirm) {
-                            wx.navigateBack({
-                              delta: 2
-                            })
-                          }
-                        }
-                      })
-                      return false;
-                    }
-                    var score = result.data.score;
-                    //修改本地缓存
-                    try {
-                      var value = wx.getStorageSync('user')
-                      value.data.user.answered = true;
-                      value.data.user.score = score;
-                      try {
-                        wx.setStorageSync('user', value)
-                      } catch (e) {
-                        that.data.user = null
-                      }
-                    } catch (e) {
-                      that.data.user = null
-                    }
-                    that.setData({
-                      scoreNum: score,
-                      showScore: true
-                    })
-                  }
-                }
-              })
-            }else if(res.cancel){
-              wx.navigateBack({
-                delta: 2
-              })
-            }
-          }
-        })
       }
+      //   //验证是否达到时间
+      //   var timeStamp = Date.parse(new Date());
+      //   timeStamp = timeStamp / 1000;
+      //   //对比时间戳，如果在范围内，则表明不是倒计时未完就交卷
+      //   if (that.data.showTimestamp + 29*60 > timeStamp){
+      //     //告诉用户 定时器出现问题，您可以继续答题。
+      //     wx.showModal({
+      //       title: '计时提示',
+      //       showCancel:false,
+      //       content: '计时器出错，但您可继续答题,请将时间把握在30分钟内！',
+      //       success: function (res) {
+      //         if (res.confirm) {}
+      //       }
+      //     })
+      //     return false;
+      //   }
+
+      //   wx.showModal({
+      //     title: '时间耗尽',
+      //     content: '请确认，是否提交试题！',
+      //     confirmText: '确定',
+      //     cancelText:'取消',
+      //     success: function (res) {
+      //       if (res.confirm) {
+      //         var answerArr = [];
+      //         for (var i = 0, len = that.data.selectData.length; i < len; i++) {
+      //           var obj = {};
+      //           obj.answer = that.data.selectData[i];
+      //           obj.id = JSON.parse(JSON.stringify(that.data.saveIdData[i]));
+      //           answerArr.push(obj);
+      //         }
+      //         //拿取token
+      //         var value = wx.getStorageSync('user');
+      //         var token = value.data.token;
+      //         //获取分数
+      //         var datas = {
+      //           data: {
+      //             token: token,
+      //             answers: answerArr
+      //           },
+      //           method: 'POST',
+      //           url: '/submit',
+      //           header: {
+      //             'content-type': 'application/json'
+      //           }
+      //         }
+
+      //         util.ajax(datas, function (result) {
+      //           if (result.statusCode == 200) {
+      //             if (result.data) {
+      //               if (result.data.errorCode == 2){
+      //                 wx.showModal({
+      //                   title: "答题信息",
+      //                   content: "系统查询您已答题完成，本次答题无效！",
+      //                   showCancel: false,
+      //                   confirmText: "退出",
+      //                   success: function (res) {
+      //                     if (res.confirm) {
+      //                       wx.navigateBack({
+      //                         delta: 2
+      //                       })
+      //                     }
+      //                   }
+      //                 })
+      //                 return false;
+      //               }
+      //               var score = result.data.score;
+      //               //修改本地缓存
+      //               try {
+      //                 var value = wx.getStorageSync('user')
+      //                 value.data.user.answered = true;
+      //                 value.data.user.score = score;
+      //                 try {
+      //                   wx.setStorageSync('user', value)
+      //                 } catch (e) {
+      //                   that.data.user = null
+      //                 }
+      //               } catch (e) {
+      //                 that.data.user = null
+      //               }
+      //               that.setData({
+      //                 scoreNum: score,
+      //                 showScore: true
+      //               })
+      //             }
+      //           }
+      //         })
+      //       }else if(res.cancel){
+      //         wx.navigateBack({
+      //           delta: 2
+      //         })
+      //       }
+      //     }
+      //   })
+      // }
     })
     wxTimer.start(that);
   }
